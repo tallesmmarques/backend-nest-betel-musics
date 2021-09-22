@@ -7,11 +7,8 @@ export class Ministry {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, unique: true })
   name: string;
-
-  @Column({ length: 50 })
-  singer: string;
 
   @OneToMany(() => MinistryInfo, (ministryInfo) => ministryInfo.ministry)
   ministriesInfo: MinistryInfo[];

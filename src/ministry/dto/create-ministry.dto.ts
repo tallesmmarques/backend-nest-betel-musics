@@ -1,1 +1,3 @@
-export class CreateMinistryDto {}
+export class CreateMinistryDto {
+  name: string;
+}
