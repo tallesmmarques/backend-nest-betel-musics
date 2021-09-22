@@ -34,11 +34,12 @@ class ConfigService {
     return {
       type: 'postgres',
 
-      host: this.getValue('POSTGRES_HOST'),
-      port: parseInt(this.getValue('POSTGRES_PORT')),
-      username: this.getValue('POSTGRES_USER'),
-      password: this.getValue('POSTGRES_PASSWORD'),
-      database: this.getValue('POSTGRES_DATABASE'),
+      // host: this.getValue('POSTGRES_HOST'),
+      // port: parseInt(this.getValue('POSTGRES_PORT')),
+      // username: this.getValue('POSTGRES_USER'),
+      // password: this.getValue('POSTGRES_PASSWORD'),
+      // database: this.getValue('POSTGRES_DATABASE'),
+      url: this.getValue('DATABASE_URL'),
 
       // entities: ['**/*.entity{.ts,.js}'],
       entities: ['**/*.entity.js'],
