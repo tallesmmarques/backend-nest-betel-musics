@@ -2,12 +2,12 @@ export class CreateMusicDto {
   name: string;
   author: string;
   gender: string;
-  ministriesInfo: [
+  ministriesInfo?: [
     {
       ministry: string;
-      tone: string;
+      tone?: string;
     },
   ];
-  linkCifra: string;
-  linkYoutube: string;
+  linkCifra?: string;
+  linkYoutube?: string;
 }

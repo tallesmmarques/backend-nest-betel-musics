@@ -34,30 +34,36 @@ export class MusicService {
       throw new BadRequestException('This music not exist');
     }
 
-    if (
-      updateMusicDto.ministriesInfo.reduce((p, c) => {
-        const isNew = !music.ministriesInfo.find(
-          (info) => info.ministry === c.ministry,
+    const ChangeMinistriesInfo = updateMusicDto.ministriesInfo.map(
+      (newInfo) => {
+        const equalInfo = music.ministriesInfo.find(
+          (info) => info.ministry === newInfo.ministry,
         );
-        if (isNew) return p;
-        return p || c.id === undefined;
-      }, false)
-    ) {
-      throw new BadRequestException('Missing ids into ministriesInfo');
-    }
+        if (equalInfo) {
+          return {
+            id: equalInfo.id,
+            ministry: newInfo.ministry,
+            tone: newInfo.tone,
+            lastPlayed: newInfo.lastPlayed,
+            timesPlayed: newInfo.timesPlayed,
+          };
+        } else {
+          return newInfo;
+        }
+      },
+    );
 
-    const oldMinistriesInfo = music.ministriesInfo.filter((info) => {
-      // filtro deve passar apenas infos com id não inclusos em update
+    const noChangeMinistriesInfo = music.ministriesInfo.filter((info) => {
+      // filtro deve passar apenas infos com ministry não inclusos em update
       const findEqual = updateMusicDto.ministriesInfo.find(
-        (newInfo) => newInfo.id === info.id,
+        (newInfo) => newInfo.ministry === info.ministry,
       );
       if (findEqual) {
         return false;
       }
       return true;
     });
-    const ministriesInfo =
-      updateMusicDto.ministriesInfo.concat(oldMinistriesInfo);
+    const ministriesInfo = ChangeMinistriesInfo.concat(noChangeMinistriesInfo);
 
     return await this.repo.save({
       ...music,

@@ -34,7 +34,6 @@ export class MusicController {
           throw new BadRequestException();
           break;
       }
-      console.log(err);
     }
   }
 
