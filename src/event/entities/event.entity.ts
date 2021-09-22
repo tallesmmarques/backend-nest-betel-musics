@@ -1,11 +1,9 @@
-import { Ministry } from 'src/ministry/entities/ministry.entity';
 import { Music } from 'src/music/entities/music.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,8 +15,8 @@ export class Event {
   @Column({ length: 100 })
   title: string;
 
-  @ManyToOne(() => Ministry, (ministry) => ministry.events)
-  ministry: Ministry;
+  @Column({ length: 50 })
+  ministry: string;
 
   @ManyToMany(() => Music, {
     onDelete: 'SET NULL',

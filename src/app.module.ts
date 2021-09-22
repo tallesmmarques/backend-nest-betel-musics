@@ -4,7 +4,6 @@ import { configService } from './config/config.service';
 import { MusicModule } from './music/music.module';
 import { MinistryInfoModule } from './ministry-info/ministry-info.module';
 import { EventModule } from './event/event.module';
-import { MinistryModule } from './ministry/ministry.module';
 
 @Module({
   imports: [
@@ -12,7 +11,6 @@ import { MinistryModule } from './ministry/ministry.module';
     MusicModule,
     MinistryInfoModule,
     EventModule,
-    MinistryModule,
   ],
 })
 export class AppModule {}

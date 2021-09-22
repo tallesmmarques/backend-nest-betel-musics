@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { MusicService } from './music.service';
 import { CreateMusicDto } from './dto/create-music.dto';
@@ -16,27 +18,46 @@ export class MusicController {
   constructor(private readonly musicService: MusicService) {}
 
   @Post()
-  create(@Body() createMusicDto: CreateMusicDto) {
-    return this.musicService.create(createMusicDto);
+  async create(@Body() createMusicDto: CreateMusicDto) {
+    try {
+      return await this.musicService.create(createMusicDto);
+    } catch (err) {
+      switch (err.code) {
+        case '23502':
+          throw new BadRequestException('Missing attributes');
+          break;
+        case '23505':
+          throw new ConflictException('This music already exists');
+          break;
+
+        default:
+          throw new BadRequestException();
+          break;
+      }
+      console.log(err);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.musicService.findAll();
+  async findAll() {
+    return await this.musicService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.musicService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.musicService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMusicDto: UpdateMusicDto) {
-    return this.musicService.update(+id, updateMusicDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateMusicDto: UpdateMusicDto,
+  ) {
+    return await this.musicService.update(+id, updateMusicDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.musicService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.musicService.remove(+id);
   }
 }

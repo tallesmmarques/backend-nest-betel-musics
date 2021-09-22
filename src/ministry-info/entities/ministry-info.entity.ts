@@ -1,4 +1,3 @@
-import { Ministry } from 'src/ministry/entities/ministry.entity';
 import { Music } from 'src/music/entities/music.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -7,8 +6,8 @@ export class MinistryInfo {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Ministry, (ministry) => ministry.ministriesInfo)
-  ministry: Ministry;
+  @Column({ length: 50 })
+  ministry: string;
 
   @ManyToOne(() => Music, (music) => music.ministriesInfo, {
     onDelete: 'CASCADE',
