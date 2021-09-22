@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { join } from 'path';
+// import { join } from 'path';
 
 dotenv.config();
 
@@ -61,11 +61,12 @@ class ConfigService {
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  'POSTGRES_HOST',
-  'POSTGRES_PORT',
-  'POSTGRES_USER',
-  'POSTGRES_PASSWORD',
-  'POSTGRES_DATABASE',
+  // 'POSTGRES_HOST',
+  // 'POSTGRES_PORT',
+  // 'POSTGRES_USER',
+  // 'POSTGRES_PASSWORD',
+  // 'POSTGRES_DATABASE',
+  'DATABASE_URL',
 ]);
 
 export { configService };
