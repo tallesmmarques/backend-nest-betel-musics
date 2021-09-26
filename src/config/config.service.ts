@@ -56,11 +56,11 @@ class ConfigService {
       },
 
       ssl: this.isProduction(),
-      // extra: {
-      //   ssl: {
-      //     rejectUnauthorized: false,
-      //   },
-      // },
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     };
   }
 }
