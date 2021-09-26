@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MinistryInfo } from 'src/ministry-info/entities/ministry-info.entity';
 import { Repository } from 'typeorm';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
@@ -17,11 +16,27 @@ export class MusicService {
   }
 
   async findAll() {
-    return await this.repo.find();
+    return await this.repo
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.ministriesInfo', 'ministryInfo')
+      .orderBy({
+        'music.name': 'ASC',
+        'ministryInfo.ministry': 'ASC',
+      })
+      .getMany();
   }
 
   async findOne(id: number) {
-    const music = await this.repo.findOne(id);
+    // const music = await this.repo.findOne(id);
+    const music = await this.repo
+      .createQueryBuilder('music')
+      .where('music.id = :id', { id })
+      .leftJoinAndSelect('music.ministriesInfo', 'ministryInfo')
+      .orderBy({
+        'music.name': 'ASC',
+        'ministryInfo.ministry': 'ASC',
+      })
+      .getOne();
     if (!music) {
       throw new BadRequestException('This music not exist');
     }

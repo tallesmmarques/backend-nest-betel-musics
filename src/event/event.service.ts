@@ -19,11 +19,30 @@ export class EventService {
   }
 
   async findAll() {
-    return await this.repo.find();
+    return await this.repo
+      .createQueryBuilder('event')
+      .leftJoinAndSelect('event.musics', 'music')
+      .leftJoinAndSelect('music.ministriesInfo', 'ministryInfo')
+      .orderBy({
+        'event.date': 'ASC',
+        'music.name': 'ASC',
+        'ministryInfo.ministry': 'ASC',
+      })
+      .getMany();
   }
 
   async findOne(id: number) {
-    const event = await this.repo.findOne(id);
+    const event = await this.repo
+      .createQueryBuilder('event')
+      .where('event.id = :id', { id })
+      .leftJoinAndSelect('event.musics', 'music')
+      .leftJoinAndSelect('music.ministriesInfo', 'ministryInfo')
+      .orderBy({
+        'music.name': 'ASC',
+        'ministryInfo.ministry': 'ASC',
+      })
+      .getOne();
+
     if (!event) {
       throw new BadRequestException('This event not exist');
     }
